@@ -5,6 +5,9 @@ using System.Web;
 
 namespace GetCats.Models.Entities
 {
+    /**
+    Andreas Svensson 
+    */
     public class Order
     {
         public int Id { get; set; }

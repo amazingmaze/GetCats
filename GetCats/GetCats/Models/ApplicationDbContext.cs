@@ -18,7 +18,7 @@ namespace GetCats.Models
             if(modelBuilder == null) { throw new ArgumentException("ModelBuilder is null"); }
             base.OnModelCreating(modelBuilder);
 
-            //renaming the database tables... 
+            //renaming the database tables.... 
             modelBuilder.Entity<ApplicationUser>().ToTable("Users");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
