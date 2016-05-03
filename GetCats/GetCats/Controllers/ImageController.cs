@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GetCats.Models;
+using GetCats.Models.ViewModels;
 
 namespace GetCats.Controllers
 {
@@ -12,23 +13,41 @@ namespace GetCats.Controllers
         [Authorize]
         public ActionResult List()
         {
-            // Get a list of all images
-
-            // Pass it into view
-
-            // AJAX
-
             return View(GetPlaceholders());
         }
 
         [Authorize]
         public ActionResult Details(int id)
         {
-            // Get view with id
-
-            // Pass it into view
-            
             return View(GetPlaceHolder(id));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadImage()
+        {
+            return View(new ImageAddViewModel());
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadImage(ImageAddViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                model.FileName = model.File.FileName;
+                // Insert model (or entity) into Db
+
+                // Get id back?
+
+                // Save image to disk ( /images/{id + fileName?}
+                var path = System.IO.Path.Combine(Server.MapPath("~/Images/"), "1" + model.File.FileName);
+                model.File.SaveAs(path);
+
+                return RedirectToAction("List", "Image");
+            }
+
+
+            return View();
         }
 
 

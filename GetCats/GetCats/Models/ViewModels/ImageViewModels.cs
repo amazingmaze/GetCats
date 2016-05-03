@@ -11,6 +11,5 @@ namespace GetCats.Models
         public string Src { get; set; }
         public double BuyOutPrice { get; set; }
         public double CurrentBid { get; set; }
-
     }
 }
