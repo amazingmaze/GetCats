@@ -21,7 +21,7 @@ namespace GetCats
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer(new ApplicationDBInitializer()); //Initialize the db when softwar start
+            Database.SetInitializer(new ApplicationDbInitializer()); //Initialize the db when softwar start
             ApplicationDbContext.Initialize();
         }
     }

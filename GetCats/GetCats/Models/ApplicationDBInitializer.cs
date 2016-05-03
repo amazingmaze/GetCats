@@ -11,14 +11,14 @@ namespace GetCats.Models
     /**
     Andreas Svensson 
     */
-    public class ApplicationDBInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext dbContext)
         {
             //creating two new identityRoles. 
             var admin = new IdentityRole { Name = "Admin", Id = Guid.NewGuid().ToString() }; 
             var user = new IdentityRole { Name = "User", Id = Guid.NewGuid().ToString() };
-            var newAdmin = new ApplicationUser()
+            var newAdmin = new User()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "AdminGetCats@AdminGetCats.com",
