@@ -1,0 +1,37 @@
+﻿@model IEnumerable<GetCats.Models.ImageViewModel>
+
+@{
+    ViewBag.Title = "Get Cats";
+}
+
+
+
+<div class="container">
+
+    <div class="form-group search">
+        <input type="text" class="form-control" id="search" value="Search...">
+    </div>
+
+
+
+
+    <ul class="list-group">
+
+        @foreach (var img in Model)
+        {
+            <li class="list-group-item tilt">
+                <a href='@Url.Action("Details", "Image", new {id = img.Id})'><img src=@img.Src  height="250" width="300"/> </a>
+                <div>@img.Title | <strong>BO: </strong><i class="glyphicon glyphicon-euro"></i>@img.BuyOutPrice | <strong>Bid @@ </strong><i class="glyphicon glyphicon-euro"></i>@img.CurrentBid</div>
+
+                <i class="glyphicon glyphicon-shopping-cart pull-right icons"></i>
+                <i class="glyphicon glyphicon-fullscreen pull-right icons"></i>
+                <i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>
+            </li>
+        }
+
+    </ul>
+
+
+
+</div>
+
