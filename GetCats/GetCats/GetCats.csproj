@@ -218,6 +218,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationDBInitializer.cs" />
+    <Compile Include="Models\Entities\Bid.cs" />
     <Compile Include="Models\Entities\Image.cs" />
     <Compile Include="Models\Entities\Order.cs" />
     <Compile Include="Models\Entities\PurchaseOption.cs" />

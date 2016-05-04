@@ -4,30 +4,30 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Ajax.Utilities;
 
 namespace GetCats.Models.Entities
 {
-    public class PurchaseOption
+    public class Bid
     {
-        public PurchaseOption()
+        public enum BidStatus
         {
-            Id = Guid.NewGuid();
+            Approved,
+            Denied,
+            Initial
         }
 
-        public enum ImageResolution
+        public Bid()
         {
-            Low,
-            High,
-            Max
+            Id = Guid.NewGuid();
         }
 
         [Key]
         public Guid Id { get; set; }
         [Required]
-        public ImageResolution Resolution { get; set; }
+        public User Bidder { get; set; }
+        [Required]
+        public BidStatus Status { get; set; } = BidStatus.Initial;
         [Required]
         public decimal Price { get; set; }
-        public ICollection<Bid> Bids { get; set; }
     }
 }
