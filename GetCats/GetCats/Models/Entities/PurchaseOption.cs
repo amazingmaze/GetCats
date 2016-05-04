@@ -29,5 +29,6 @@ namespace GetCats.Models.Entities
         [Required]
         public decimal Price { get; set; }
         public ICollection<Bid> Bids { get; set; }
+        public virtual Image ParentImage { get; set; }
     }
 }

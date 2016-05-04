@@ -2,9 +2,46 @@
     padding-top: 50px;
     padding-bottom: 20px;
     font-family: 'Comic Sans MS';
-    
+    background: url(img/bg.jpg) no-repeat right bottom fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
+#logoImg {
+    padding-top: 10px;
+}
+
+#home-carousel {
+    background: #aaa;
+}
+
+.box { background: #fff;padding-top: 10px; padding-bottom: 10px; }
+
+#cartTable {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.cartRemoveBtn {
+    max-height: 16px;
+    max-width: 16px;
+}
+
+footer {
+    background: #fff;
+    padding-top: 10px;
+    padding-bottom: 1px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+footer p {
+    text-align: center;
+}
+
+h2 { color: #fff; }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -14,7 +51,11 @@
 
 .navbar {
     font-size: large;
+    background: none;
+    border: 0;
 }
+
+.navbar a { color: #FFF !important; }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 

@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Your shopping cart";
+}
+<h2>@ViewBag.Title.</h2>
+<div class="row box">
+    <div class="col-md-12">
+        <table id="cartTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Resolution</th>
+                <th>Price</th>
+                <th style="width: 30px;"></th>
+            </tr>
+            </thead>
+        </table>
+        <hr/>
+        <p> Total: <span id="cartPageCost"></span> euro(s)</p>
+        <p> Number of items in cart: <span id="cartPageSize">0</span></p>
+        <button class="btn btn-info" id="btnCheckout">Checkout</button>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/site/cart-page.js"></script>
+}
+
