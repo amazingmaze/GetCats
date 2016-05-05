@@ -19,7 +19,6 @@ namespace GetCats.Controllers.API
 
         public CartController()
         {
-            
             _cartService = new CartService(); //Replace with injection?
         }
 
