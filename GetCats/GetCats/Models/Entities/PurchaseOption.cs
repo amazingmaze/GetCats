@@ -30,5 +30,6 @@ namespace GetCats.Models.Entities
         public decimal Price { get; set; }
         public ICollection<Bid> Bids { get; set; }
         public virtual Image ParentImage { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
