@@ -10,8 +10,9 @@ namespace GetCats.Services
 {
     public class CartService
     {
-        public void AddItemToCart(Guid purchaseOptionId)
+        public bool AddItemToCart(Guid purchaseOptionId)
         {
+            var result = false;
             var items = GetCartItems();
             if (items.Count(x => x.PurchaseOptionId.Equals(purchaseOptionId)) == 0) //Cannot add the same item twice (nonsensical for a digital image)
             {
@@ -29,10 +30,12 @@ namespace GetCats.Services
                             Resolution = option.Resolution
                         };
                         items.Add(cartItem);
+                        InserCartItems(items);
+                        result = true;
                     }
                 }
-                InserCartItems(items);
             }
+            return result;
         }
 
         public void RemoveItemFromCart(Guid purchaseOptionId)
@@ -49,7 +52,6 @@ namespace GetCats.Services
 
         public List<CartItem> GetCartItems()
         {
-            DemoInsertCartItems(); //TODO: Ta bort när add to cart är fixat korrekt
             var cart = HttpContext.Current.Session["cart"];
             if (cart != null)
             {
@@ -61,18 +63,6 @@ namespace GetCats.Services
         public void InserCartItems(List<CartItem> items)
         {
             HttpContext.Current.Session["cart"] = items;
-        }
-
-        public void DemoInsertCartItems() //TODO: Ta bort när add to cart är fixat korrekt
-        {
-            if (HttpContext.Current.Session["cart"] != null) return;
-            var newCart = new List<CartItem>
-            {
-                new CartItem { PurchaseOptionId = Guid.NewGuid(), ImageId = Guid.NewGuid(), Resolution = PurchaseOption.ImageResolution.High, Name = "Lolcat1", Price = 512 },
-                new CartItem { PurchaseOptionId = Guid.NewGuid(), ImageId = Guid.NewGuid(), Resolution = PurchaseOption.ImageResolution.Low, Name = "Some bunch of cats", Price = 113 },
-                new CartItem { PurchaseOptionId = Guid.NewGuid(), ImageId = Guid.NewGuid(), Resolution = PurchaseOption.ImageResolution.Max, Name = "FUNNY CAT!", Price = 98 }
-            };
-            InserCartItems(newCart);
         }
     }
 }

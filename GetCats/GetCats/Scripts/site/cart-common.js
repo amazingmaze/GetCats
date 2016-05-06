@@ -12,15 +12,25 @@ function initCartCounter() {
 }
 
 function addToCart(purchaseOptionId) {
-    $.put(`/api/cart/${purchaseOptionId}`, res => {
-        console.log("added item " + purchaseOptionId + " to cart");
-        $("#cartSummary").html(`Cart(${++ItemsInCart} items)`);
+    $.ajax({
+        url: `/api/cart/${purchaseOptionId}`,
+        dataType: "json",
+        type: "PUT",
+        success: (data) => {
+            if (data.result === true) {
+                $("#cartSummary").html(`Cart(${++ItemsInCart} items)`);
+                console.log("added item " + purchaseOptionId + " from cart");
+            }
+        }
     });
 }
 
 function removeFromCart(purchaseOptionId, callback) {
     console.log("started removing..");
-    $.ajax({ url: `/api/cart/${purchaseOptionId}`, type: "DELETE" }).done(() => { callback(); });
-    console.log("removed item " + purchaseOptionId + " from cart");
-    $("#cartSummary").html(`Cart(${--ItemsInCart} items)`);
+    $.ajax({ url: `/api/cart/${purchaseOptionId}`, type: "DELETE" }).done(() => {
+        $("#cartSummary").html(`Cart(${--ItemsInCart} items)`);
+        callback();
+        console.log("removed item " + purchaseOptionId + " from cart");
+    });
+    
 }

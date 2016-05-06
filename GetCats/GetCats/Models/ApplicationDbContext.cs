@@ -28,8 +28,6 @@ namespace GetCats.Models
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
-            //modelBuilder.Entity<Order>().HasMany(o => o.Items).WithRequired().HasForeignKey(oi => oi.OrderId); //configure a relationship between Orders and OrderItems
-            //modelBuilder.Entity<OrderItems>().HasKey(i => new {i.Id, i.Quanity, i.OrderId}).Property(i => i.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity); //composie key for OrderItems. Also auto-generate by datase. 
         }
 
         public static ApplicationDbContext Create()

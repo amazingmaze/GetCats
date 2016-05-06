@@ -36,9 +36,9 @@ namespace GetCats.Controllers.API
         }
 
         [HttpPut]
-        public void AddToCart(Guid id) //Adds the purchaseoption with the supplied id as a cart item
+        public IHttpActionResult AddToCart(Guid id) //Adds the purchaseoption with the supplied id as a cart item
         {
-            _cartService.AddItemToCart(id);
+            return Json(new { result = _cartService.AddItemToCart(id) });
         }
 
         [HttpDelete]
