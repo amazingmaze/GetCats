@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using GetCats.Models.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;

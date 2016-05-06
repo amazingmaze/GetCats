@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace GetCats.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         // GET: Cart
