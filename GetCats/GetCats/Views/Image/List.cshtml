@@ -5,19 +5,30 @@
 }
 
 
-
 <div class="container">
 
     <div class="form-group search">
         <input type="text" class="form-control" id="search" value="Search...">
     </div>
 
+    <!-- GET ALL THE IMAGES FROM WEB API. PRINT THEM OUT-->
+    <script>
+
+    $(function() {
+
+        console.log("JQUERY TEST!!!!!!!!!");
 
 
+    });
 
+    </script>
+
+    
+
+@*
     <ul class="list-group">
 
-        @foreach (var img in Model)
+     @foreach (var img in Model)
         {
             <li class="list-group-item tilt">
                 <a href='@Url.Action("Details", "Image", new {id = img.Id})'><img src=@img.Src  height="250" width="300"/> </a>
@@ -30,6 +41,7 @@
         }
 
     </ul>
+*@
 
 
 

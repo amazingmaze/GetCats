@@ -7,6 +7,11 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    color: white;
+}
+
+a {
+  color: yellow;  
 }
 
 #logoImg {
@@ -35,6 +40,7 @@ footer {
     padding-bottom: 1px;
     margin-top: 30px;
     width: 100%;
+    color: black;
 }
 
 footer p {

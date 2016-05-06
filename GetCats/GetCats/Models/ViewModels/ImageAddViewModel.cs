@@ -4,17 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using GetCats.Views.Admin.UploadImageValidators;
+using GetCats.Models.Entities;
 
 namespace GetCats.Models.ViewModels
 {
     public class ImageAddViewModel
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         [FileTypes("jpg,jpeg,png")]
         public HttpPostedFileBase File { get; set; }
         public string FileName { get; set; }
-        [Required]
-        public double BuyOutPrice { get; set; }
+        public PurchaseOption Options { get; set; }
     }
 }

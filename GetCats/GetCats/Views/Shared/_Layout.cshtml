@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href='https://fonts.googleapis.com/css?family=Flavors' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -25,6 +26,7 @@
                     {
                         <li>@Html.ActionLink("Images", "List", "Image")</li>
                         <li><a id="cartSummary" href="/Cart">Cart(N/A)</a></li>
+                        <li>@Html.ActionLink("Upload Image", "UploadImage", "Image")</li>
                     }
                     else
                     {

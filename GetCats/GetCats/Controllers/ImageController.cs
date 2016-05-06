@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GetCats.Controllers.API;
 using GetCats.Models;
+using GetCats.Models.Entities;
 using GetCats.Models.ViewModels;
+using GetCats.Services;
 
 namespace GetCats.Controllers
 {
@@ -22,25 +26,43 @@ namespace GetCats.Controllers
             return View(GetPlaceHolder(id));
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")] todo: CHANGE BACK
         public ActionResult UploadImage()
         {
             return View(new ImageAddViewModel());
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [HttpPost] // todo: KOLLA ÖVER DENNA
         public ActionResult UploadImage(ImageAddViewModel model)
         {
 
             if (ModelState.IsValid)
             {
                 model.FileName = model.File.FileName;
-                // Insert model (or entity) into Db
+
+                // Insert model (or entity) into Db          
+                var imgService = new ImageService();
+                
+                var img = new Image
+                {
+                    FileName = model.FileName,
+                    Name = model.Name
+                };
+
+                var opt1 = new PurchaseOption { Price = model.Options.Price, Resolution = model.Options.Resolution };
+                var opt2 = new PurchaseOption { Price = 12, Resolution = PurchaseOption.ImageResolution.High };
 
                 // Get id back?
+                var imgId = imgService.InsertImage(img, new PurchaseOption[]
+                {
+                    opt1,opt2
+                }
+            );
+             
 
                 // Save image to disk ( /images/{id + fileName?}
-                var path = System.IO.Path.Combine(Server.MapPath("~/Images/"), "1" + model.File.FileName);
+                var path = System.IO.Path.Combine(Server.MapPath("~/Images/"), imgId + model.File.FileName);
                 model.File.SaveAs(path);
 
                 return RedirectToAction("List", "Image");
