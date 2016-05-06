@@ -24,7 +24,7 @@ namespace GetCats.Models.Entities
         [Key]
         public Guid Id { get; set; }
         [Required]
-        public User Bidder { get; set; }
+        public virtual User Bidder { get; set; }
         [Required]
         public BidStatus Status { get; set; } = BidStatus.Initial;
         [Required]
