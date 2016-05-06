@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GetCats.Models;
+using GetCats.Models.ApiModels;
 using GetCats.Models.Entities;
 
 namespace GetCats.Services
@@ -19,11 +20,33 @@ namespace GetCats.Services
             }
         }
 
-        public async Task<List<Image>> GetImages()
+        public List<ImageApiModel> GetImages()
         {
             using (var context = ApplicationDbContext.Create())
             {
-                return await context.Images.ToListAsync();
+                return (from image in context.Images.ToList()
+                              select new ImageApiModel
+                              {
+                                  Id = image.Id.ToString(),
+                                  Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString() }).ToArray()
+                              }).ToList();
+            }
+        }
+
+
+        // todo: ÄNDRA (BARA FÖR TESTNING)
+        public Guid InsertImage(Image img, PurchaseOption[] options)
+        {
+
+            using (var context = ApplicationDbContext.Create())
+            {
+                foreach (var option in options)
+                {
+                    img.Options.Add(option);
+                }
+                context.Images.Add(img);
+                context.SaveChanges();
+                return img.Id;
             }
         }
     }

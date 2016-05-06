@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using GetCats.Models.ApiModels;
 using GetCats.Services;
 
 namespace GetCats.Controllers.API
@@ -18,13 +21,15 @@ namespace GetCats.Controllers.API
         [HttpGet]
         public async Task<IHttpActionResult> GetImages() //Returns all images registered in the database as a json array object
         {
-            return Json(await _imageService.GetImages());
+            
+            return Json(_imageService.GetImages());
         }
 
+        /*
         [HttpGet]
         public async Task<IHttpActionResult> GetImage(Guid id) //Returns an image with the matchion guid as a JSON array object (or returns null)
         {
             return Json(await _imageService.GetImage(id));
-        }
+        } */
     }
 }

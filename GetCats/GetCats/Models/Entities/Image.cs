@@ -21,6 +21,6 @@ namespace GetCats.Models.Entities
         public string Name { get; set; } //describing name of image
         [Required]
         public string FileName { get; set; } //unique name of file
-        public virtual ICollection<PurchaseOption> Options { get; set; }
+        public virtual ICollection<PurchaseOption> Options { get; set; } = new List<PurchaseOption>();
     }
 }

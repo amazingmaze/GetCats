@@ -221,6 +221,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApiModels\ImageApiModel.cs" />
+    <Compile Include="Models\ApiModels\PurchaseOptionApiModel.cs" />
     <Compile Include="Models\ApplicationDBInitializer.cs" />
     <Compile Include="Models\DTO\CartItem.cs" />
     <Compile Include="Models\DTO\CartResult.cs" />
