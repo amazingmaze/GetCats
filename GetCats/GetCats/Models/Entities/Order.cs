@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using GetCats.Models.DTO;
 
 namespace GetCats.Models.Entities
 {
@@ -34,6 +35,11 @@ namespace GetCats.Models.Entities
         [Required]
         public DateTime StatusChanged { get; set; }
         public string PaymentId { get; set; }
+        public int Total { get; set; }
+        public int SubTotal { get; set; }
+        public int Tax { get; set; }
+        public int Shipping { get; set; }
+        public PaypalPaymentParams.PaymentCurrency Currency { get; set; }
 
         public virtual ICollection<PurchaseOption> Items { get; set; }
     }

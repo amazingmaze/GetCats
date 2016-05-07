@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using GetCats.Models;
+using GetCats.Models.DTO;
+using GetCats.Models.ViewModels;
 using GetCats.Services;
 
 namespace GetCats.Controllers
@@ -24,13 +26,36 @@ namespace GetCats.Controllers
         }
 
         //View order
-        public async Task<ActionResult> View(Guid id)
+        public async Task<ActionResult> View(Guid? id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
+            if (id != null)
             {
+                var order = await _context.Orders.FindAsync(id);
+                if (order != null)
+                {
+                    var model = new OrderViewModel
+                    {
+                        Status = order.Status,
+                        Created = order.Created,
+                        StatusChanged = order.StatusChanged,
+                        Id = order.Id,
+                        Tax = order.Tax,
+                        Shipping = order.Shipping,
+                        Total = order.Total,
+                        SubTotal = order.SubTotal,
+                        Currency = order.Currency,
+                        Items = order.Items.Select(x => new CartItem
+                        {
+                            Name = x.ParentImage.Name,
+                            Resolution = x.Resolution,
+                            Price = x.Price,
+                            ImageId = x.ParentImage.Id,
+                        }).ToList()
+                    };
+                    return View(model);
+                }
             }
-            return View();
+            throw new HttpException(404, "Order not found");
         }
 
         protected override void Dispose(bool disposing)

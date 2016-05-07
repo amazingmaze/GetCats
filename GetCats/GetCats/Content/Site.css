@@ -67,6 +67,15 @@ footer p {
 
 h2 { color: #fff; }
 
+.order-details div {
+    padding: 5px;
+}
+.order-details div span {
+    font-weight: bold;
+    color: #666;
+}
+
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;

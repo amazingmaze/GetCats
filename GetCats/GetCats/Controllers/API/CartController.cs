@@ -48,7 +48,7 @@ namespace GetCats.Controllers.API
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Checkout() //Some function to buy the selected cart?!?!?!
+        public IHttpActionResult Checkout() //Some function to buy the selected cart?!?!?!
         {
             return Json("");
         }

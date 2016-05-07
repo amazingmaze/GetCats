@@ -66,7 +66,7 @@ namespace GetCats.Controllers
             if (_cartService.GetCartSize() == 0) return RedirectToAction("Index"); //Dont process if cart is empty
             var order = new Models.Entities.Order();
 
-            var payment = _paypalService.CreatePayment(new PaypalPaymentParams
+            var paymentParams = new PaypalPaymentParams
             {
                 Context = apiContext,
                 Currency = PaypalPaymentParams.PaymentCurrency.EUR,
@@ -75,11 +75,16 @@ namespace GetCats.Controllers
                 RedirectUrl = GetReturnUrl(order.Id.ToString()),
                 Shipping = 1,
                 TaxPercentage = 0.2m
-            });
+            };
+            var payment = _paypalService.CreatePayment(paymentParams);
 
-            Debug.WriteLine("Searching for username '" + User.Identity.Name + "'");
             var user = await _context.Users.Where(u => u.Email.Equals(User.Identity.Name)).FirstAsync();
             order.PaymentId = payment.id;
+            order.Total = paymentParams.Total;
+            order.SubTotal = paymentParams.SubTotal;
+            order.Tax = paymentParams.Tax;
+            order.Currency = paymentParams.Currency;
+            order.Shipping = paymentParams.Shipping;
             InsertPurchaseOptions(order);
             user.Orders.Add(order);
             try

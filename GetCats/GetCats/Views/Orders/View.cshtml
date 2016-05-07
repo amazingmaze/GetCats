@@ -1,12 +1,44 @@
-﻿
+﻿@using GetCats.Models.Entities
+@model GetCats.Models.ViewModels.OrderViewModel
 @{
     ViewBag.Title = "View order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title.</h2>
-<div class="row box">
-    <div class="col-md-12">
+<div class="row box order-details">
+    @if (Model.Status.Equals(Order.OrderStatus.Payed))
+    {
+        <p style="margin-right: 5px; margin-left: 5px;" class="alert alert-success">Order is payed and waiting delivery</p>
+    }
+    else if (Model.Status.Equals(Order.OrderStatus.InPogress))
+    {
+        <p style="margin-right: 5px; margin-left: 5px;" class="alert alert-warning">Order is awaiting payment</p>
+    }
+    else
+    {
+        <p style="margin-right: 5px; margin-left: 5px;" class="alert alert-success">Order is payed and has been sent to your address!</p>
+    }
 
+    <div>Order ID: <span>@Model.Id</span></div>
+    <div>Created: <span>@Model.Created</span></div>
+    <div>Last updated: <span>@Model.StatusChanged</span></div>
+    <div>Total cost: <span>@Model.Total @Model.Currency (Shipping: @Model.Shipping @Model.Currency, Tax: @Model.Tax @Model.Currency)</span></div>
+    <div class="col-md-12">
+        <table style="width: 100%">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Resolution</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr><td>@item.Name</td><td>@item.Resolution</td><td>@item.Price</td></tr>
+            }
+            </tbody>
+        </table>
     </div>
 </div>

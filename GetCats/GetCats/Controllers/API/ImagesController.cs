@@ -19,7 +19,7 @@ namespace GetCats.Controllers.API
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetImages() //Returns all images registered in the database as a json array object
+        public IHttpActionResult GetImages() //Returns all images registered in the database as a json array object
         {
             
             return Json(_imageService.GetImages());
