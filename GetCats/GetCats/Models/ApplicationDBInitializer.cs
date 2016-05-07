@@ -8,10 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GetCats.Models
 {
-    /**
-    Andreas Svensson 
-    */
-    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext dbContext)
         {

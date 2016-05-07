@@ -12,7 +12,7 @@ namespace GetCats.Models.DTO
         public Guid PurchaseOptionId;
         public Guid ImageId;
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public PurchaseOption.ImageResolution Resolution { get; set; }
     }
 }

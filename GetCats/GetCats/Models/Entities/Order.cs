@@ -8,13 +8,11 @@ namespace GetCats.Models.Entities
 {
     public class Order
     {
-        /**
-            Andreas Svensson 
-        */
         public enum OrderStatus
         {
             InPogress,
-            Completed
+            Payed,
+            Delivered
         }
 
         public Order()
@@ -22,6 +20,7 @@ namespace GetCats.Models.Entities
             Status = OrderStatus.InPogress;
             OrderDate = DateTime.UtcNow;
             Id = Guid.NewGuid();
+            Created = StatusChanged = DateTime.Now;
         }
 
         [Key]
@@ -32,6 +31,11 @@ namespace GetCats.Models.Entities
         public virtual User User { get; set; }
         [Required]
         public OrderStatus Status { get; set; }
+        [Required]
+        public DateTime Created { get; set; }
+        [Required]
+        public DateTime StatusChanged { get; set; }
+        public string PaymentId { get; set; }
 
         public virtual ICollection<PurchaseOption> Items { get; set; } = new List<PurchaseOption>();
     }

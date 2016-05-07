@@ -10,6 +10,11 @@ namespace GetCats.Services
 {
     public class CartService
     {
+        public void ClearCart()
+        {
+            HttpContext.Current.Session["cart"] = null;
+        }
+
         public bool AddItemToCart(Guid purchaseOptionId)
         {
             var result = false;
