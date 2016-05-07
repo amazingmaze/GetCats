@@ -25,24 +25,27 @@ namespace GetCats.Services
             return new APIContext(_oauthToken);
         }
 
+        public Payment ExecutePayment(APIContext context, string payerId, string paymentId)
+        {
+            var payment = new Payment() { id = paymentId };
+            return payment.Execute(context, new PaymentExecution() { payer_id = payerId });
+        }
+
         public Payment CreatePayment(PaypalPaymentParams paymentParams)
         {
             var items = CartItemsToPayPalItems(paymentParams.Items, paymentParams.Currency.ToString());
             var redirectUrls = new RedirectUrls() { cancel_url = paymentParams.RedirectUrl, return_url = paymentParams.RedirectUrl };
 
-            var details = new Details()
-            {
-                tax = paymentParams.Tax.ToString(),
-                shipping = paymentParams.Shipping.ToString(),
-                subtotal = paymentParams.SubTotal.ToString()
-            };
-
-            // similar as we did for credit card, do here and create amount object
             var amount = new Amount()
             {
                 currency = paymentParams.Currency.ToString(),
-                total = paymentParams.Total.ToString(), // Total must be equal to sum of shipping, tax and subtotal.
-                details = details
+                total = paymentParams.Total.ToString(),
+                details = new Details()
+                {
+                    tax = paymentParams.Tax.ToString(),
+                    shipping = paymentParams.Shipping.ToString(),
+                    subtotal = paymentParams.SubTotal.ToString()
+                }
             };
 
             var transactions = CreateTransaction("GetCatz Cart Checkout", paymentParams.OrderId.ToString(), amount, items);

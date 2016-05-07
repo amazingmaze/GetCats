@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -17,6 +18,8 @@ namespace GetCats.Models.Entities
         public string PostalCode { get; set; }
         //[Required]
         public string Country { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

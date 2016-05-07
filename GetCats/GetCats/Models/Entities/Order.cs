@@ -18,15 +18,13 @@ namespace GetCats.Models.Entities
         public Order()
         {
             Status = OrderStatus.InPogress;
-            OrderDate = DateTime.UtcNow;
             Id = Guid.NewGuid();
             Created = StatusChanged = DateTime.Now;
+            Items = new List<PurchaseOption>();
         }
 
         [Key]
         public Guid Id { get; set; }
-        [Required]
-        public DateTime OrderDate { get; set; }
         [Required]
         public virtual User User { get; set; }
         [Required]
@@ -37,6 +35,6 @@ namespace GetCats.Models.Entities
         public DateTime StatusChanged { get; set; }
         public string PaymentId { get; set; }
 
-        public virtual ICollection<PurchaseOption> Items { get; set; } = new List<PurchaseOption>();
+        public virtual ICollection<PurchaseOption> Items { get; set; }
     }
 }

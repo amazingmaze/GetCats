@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using GetCats.Models;
 using GetCats.Models.DTO;
 using GetCats.Models.Entities;
 using GetCats.Services;
 using PayPal.Api;
+using Order = GetCats.Models.Entities.Order;
 
 namespace GetCats.Controllers
 {
@@ -16,11 +19,13 @@ namespace GetCats.Controllers
     {
         private readonly PayPalService _paypalService;
         private readonly CartService _cartService;
+        private readonly ApplicationDbContext _context;
 
         public CartController()
         {
             _paypalService = new PayPalService();
             _cartService = new CartService();
+            _context = ApplicationDbContext.Create();
         }
 
         // GET: Cart
@@ -29,46 +34,81 @@ namespace GetCats.Controllers
             return View();
         }
 
-        private string getReturnUrl(string orderId)
+        private string GetReturnUrl(string orderId)
         {
-            return this.Url.Action("PayPalResponse", "Cart", new { id = orderId }, this.Request.Url.Scheme);
+            return this.Url.Action("FinalizePay", "Cart", new { id = orderId }, this.Request.Url.Scheme);
         }
 
-        public ActionResult PayWithPayPal()
+        //Finalize payment
+        public ActionResult FinalizePay(Guid id, string PayerId, string paymentId, string token)
+        {
+            //var order = _context.Orders.FirstOrDefault(o => o.Id.Equals(id)); VARFÖR I HELVETE FUNGERAR EJ DETTA..
+            var user = _context.Users.First(u => u.Email.Equals(User.Identity.Name));
+            var order = user.Orders.FirstOrDefault(o => o.Id.Equals(id));
+            if (order != null)
+            {
+                var payment = _paypalService.ExecutePayment(_paypalService.GetApiContext(), PayerId, paymentId);
+                if (payment.state.ToLower().Equals("approved"))
+                {
+                    order.Status = Order.OrderStatus.Payed;
+                    order.StatusChanged = DateTime.Now;
+                    _context.SaveChanges();
+                    return RedirectToAction("View", new { controller = "Orders", id });
+                }
+            }
+
+            throw new Exception("Payment failed");
+        }
+
+        public async Task<ActionResult> Pay()
         {
             var apiContext = _paypalService.GetApiContext();
             if (_cartService.GetCartSize() == 0) return RedirectToAction("Index"); //Dont process if cart is empty
             var order = new Models.Entities.Order();
 
-            using (var context = ApplicationDbContext.Create())
+            var payment = _paypalService.CreatePayment(new PaypalPaymentParams
             {
-                var payment = _paypalService.CreatePayment(new PaypalPaymentParams
-                {
-                    Context = apiContext,
-                    Currency = PaypalPaymentParams.PaymentCurrency.EUR,
-                    Items = _cartService.GetCartItems(),
-                    OrderId = order.Id,
-                    RedirectUrl = getReturnUrl(order.Id.ToString()),
-                    Shipping = 1,
-                    TaxPercentage = 0.2m
-                });
+                Context = apiContext,
+                Currency = PaypalPaymentParams.PaymentCurrency.EUR,
+                Items = _cartService.GetCartItems(),
+                OrderId = order.Id,
+                RedirectUrl = GetReturnUrl(order.Id.ToString()),
+                Shipping = 1,
+                TaxPercentage = 0.2m
+            });
 
-                order.PaymentId = payment.id;
-                context.Orders.Add(order);
-                try
+            Debug.WriteLine("Searching for username '" + User.Identity.Name + "'");
+            var user = await _context.Users.Where(u => u.Email.Equals(User.Identity.Name)).FirstAsync();
+            order.PaymentId = payment.id;
+            InsertPurchaseOptions(order);
+            user.Orders.Add(order);
+            try
+            {
+                var redirectUrl = GetPayPalRedirectUrl(payment);
+                _context.SaveChanges();
+                _cartService.ClearCart();
+                return Redirect(redirectUrl);
+            }
+            catch (Exception ex)
+            {
+                while (ModelState.GetEnumerator().MoveNext())
                 {
-                    var redirectUrl = GetPayPalRedirectUrl(payment);
-                    order.User = context.Users.Find(User.Identity.Name);
-                    //context.SaveChanges();
-                    _cartService.ClearCart();
-                    return Redirect(redirectUrl);
+                    Debug.WriteLine(ModelState.GetEnumerator().Current.Value.Errors.First());
                 }
-                catch (Exception ex)
-                {
-                    Debug.Write(ex.Message);
-                    throw ex;
-                }
+                Debug.Write(ex.Message);
+                throw ex;
+            }
+        }
 
+        private void InsertPurchaseOptions(Models.Entities.Order order)
+        {
+            foreach (var cartItem in _cartService.GetCartItems())
+            {
+                var option = _context.PurchaseOptions.Find(cartItem.PurchaseOptionId);
+                if (option != null)
+                {
+                    order.Items.Add(option);
+                }
             }
         }
 
@@ -83,10 +123,13 @@ namespace GetCats.Controllers
             return null;
         }
 
-        public ActionResult PayPalResponse(string PayerID)
+        protected override void Dispose(bool disposing)
         {
-            throw new Exception("GOD PAYERID: " + PayerID);
-            
+            if (disposing)
+            {
+                _context?.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

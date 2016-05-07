@@ -20,7 +20,7 @@
         <p> Total: <span id="cartPageCost"></span> euro(s)
         </p>
         <p> Number of items in cart: <span id="cartPageSize">0</span></p>
-        <button class="btn btn-info" id="btnCheckout">Checkout</button>
+        @Html.ActionLink("Checkout using PayPal", "Pay", new { controller = "Cart" }, new { @class = "btn btn-info" })
     </div>
 </div>
 @section scripts
