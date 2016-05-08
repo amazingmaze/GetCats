@@ -1,8 +1,32 @@
-﻿
+﻿@model GetCats.Models.ViewModels.OrderListViewModel
 @{
-    ViewBag.Title = "History";
+    ViewBag.Title = "Order history";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>History</h2>
-
+<h2>@ViewBag.Title.</h2>
+<div class="row box">
+    <div class="col-md-12">
+        <table style="width: 100%;">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Total cost</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+            </thead>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.Total @order.Currency.ToString()</td>
+                    <td>@order.Status.ToString()</td>
+                    <td>@order.Created</td>
+                    <td>@Html.ActionLink("Details", "View", new {controller = "Orders", id = order.Id}, new {@class = "btn btn-info btn-xs"})</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

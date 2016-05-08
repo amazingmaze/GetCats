@@ -19,10 +19,21 @@ namespace GetCats.Controllers
             _context = ApplicationDbContext.Create();
         }
 
-        // List order hisotory
+        // List order history
         public ActionResult Index()
         {
-            return View();
+            var model = new OrderListViewModel
+            {
+                Orders = _context.Orders.Where(o => o.User.Email.Equals(User.Identity.Name)).Select(x => new OrderListItem
+                {
+                    Id = x.Id,
+                    Created = x.Created,
+                    Currency = x.Currency,
+                    Status = x.Status,
+                    Total = x.Total
+                }).OrderByDescending(d => d.Created).ToList()
+            };
+            return View(model);
         }
 
         //View order
