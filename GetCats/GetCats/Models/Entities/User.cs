@@ -10,14 +10,28 @@ namespace GetCats.Models.Entities
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
-        //[Required]
+        public enum UserStatus
+        {
+            Active,
+            Inactive
+        }
+
+        public enum PermissionStatus
+        {
+            Admin, 
+            User
+        }
+
+        [Required]
         public string Street { get; set; }
-        //[Required]
+        [Required]
         public string Region { get; set; }
-        //[Required]
+        [Required]
         public string PostalCode { get; set; }
-        //[Required]
-        public string Country { get; set; }
+        public virtual Country Country { get; set; }
+        [Required]
+        public UserStatus Status { get; set; } = UserStatus.Active;
+
 
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

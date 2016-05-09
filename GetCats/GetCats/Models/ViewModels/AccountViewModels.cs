@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using GetCats.Models.Entities;
 
 namespace GetCats.Models
 {
@@ -42,8 +44,27 @@ namespace GetCats.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Street")]
+        public string Street { get; set; }
+
+        [Display(Name = "Region")]
+        public string Region { get; set; }
+
+        [Display(Name = "Postal Code")]
+        public string PostalCode { get; set; }
+
+        [Display(Name = "Country")] 
+        public string Country { get; set; }
+
+        public List<SelectListItem> Countries { get; set; }
+
+        public string Status { get; set; }
+        
+        public string Permession { get; set; }
+
     }
 
     public class ResetPasswordViewModel
@@ -61,7 +82,7 @@ namespace GetCats.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
