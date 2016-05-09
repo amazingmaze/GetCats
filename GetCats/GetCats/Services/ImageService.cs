@@ -12,11 +12,19 @@ namespace GetCats.Services
 {
     public class ImageService
     {
-        public async Task<Image> GetImage(Guid id)
+        public ImageApiModel GetImage(Guid id)
         {
             using (var context = ApplicationDbContext.Create())
             {
-                return await context.Images.FindAsync(id);
+                var image = context.Images.Find(id);
+
+                return new ImageApiModel
+                {
+                    Id = image.Id.ToString(),
+                    Name = image.Name,
+                    FileName = image.FileName,
+                    Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString() }).ToArray()
+                };
             }
         }
 
@@ -28,13 +36,13 @@ namespace GetCats.Services
                               select new ImageApiModel
                               {
                                   Id = image.Id.ToString(),
+                                  Name = image.Name,
+                                  FileName = image.FileName,
                                   Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString() }).ToArray()
                               }).ToList();
             }
         }
 
-
-        // todo: ÄNDRA (BARA FÖR TESTNING)
         public Guid InsertImage(Image img, PurchaseOption[] options)
         {
 

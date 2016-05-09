@@ -223,6 +223,7 @@
     <Compile Include="Controllers\API\CartController.cs" />
     <Compile Include="Controllers\API\CartSizeController.cs" />
     <Compile Include="Controllers\API\ImagesController.cs" />
+    <Compile Include="Controllers\API\ImagesDetailController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -316,12 +317,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Image\List.cshtml" />
-    <Content Include="Views\Image\Details.cshtml" />
     <Content Include="Views\Image\UploadImage.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Home\PaypalTest.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\View.cshtml" />
+    <Content Include="Views\Image\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

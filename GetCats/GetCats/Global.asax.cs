@@ -32,6 +32,9 @@ namespace GetCats
 
             Database.SetInitializer(new ApplicationDbInitializer()); //Initialize the db when softwar start
             ApplicationDbContext.Initialize();
+
         }
+
+
     }
 }

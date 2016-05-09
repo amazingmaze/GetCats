@@ -1,4 +1,4 @@
-﻿@model GetCats.Models.ImageViewModel
+﻿@model GetCats.Models.ApiModels.ImageApiModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,36 +6,25 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>ImageViewModel</h4>
-    <hr />
+<div class="form-horizontal box">
+
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Src)
+            @Html.DisplayNameFor(model => model.FileName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Src)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BuyOutPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BuyOutPrice)
+            @Html.DisplayFor(model => model.FileName)
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "List")
-</p>
+

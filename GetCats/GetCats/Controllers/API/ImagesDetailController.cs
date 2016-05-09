@@ -9,20 +9,19 @@ using GetCats.Services;
 namespace GetCats.Controllers.API
 {
     [Authorize]
-    public class ImagesController : ApiController
+    public class ImagesDetailController : ApiController
     {
         private readonly ImageService _imageService;
 
-        public ImagesController()
+        public ImagesDetailController()
         {
             _imageService = new ImageService(); //Replace with injection?
         }
 
         [HttpGet]
-        public IHttpActionResult GetImages() //Returns all images registered in the database as a json array object
+        public IHttpActionResult GetImage(Guid id) //Returns an image with the matchion guid as a JSON array object (or returns null)
         {
-            
-            return Json(_imageService.GetImages());
+            return Json(_imageService.GetImage(id));
         }
     }
 }
