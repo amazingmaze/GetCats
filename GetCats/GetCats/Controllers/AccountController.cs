@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -14,6 +16,10 @@ namespace GetCats.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+            private ApplicationDbContext db = new ApplicationDbContext();
+
+
 
         public AccountController()
         {
@@ -91,7 +97,17 @@ namespace GetCats.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+            using (var context = ApplicationDbContext.Create())
+            {
+                model.Countries = context.Countries.Select(c => new SelectListItem()
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
+
+            }
+            return View(model);
         }
 
         //
@@ -101,26 +117,51 @@ namespace GetCats.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            using (var context = ApplicationDbContext.Create())
             {
-                var user = new User { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+;                    var user = new User
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        Street = model.Street,
+                        Region = model.Region,
+                        PostalCode = model.PostalCode
+                    }; 
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var cId = Guid.Parse(model.Country);
+                        var userAgain = context.Users.First(x => x.Email.Equals(user.Email));
+                        var country = context.Countries.First(x => x.Id.Equals(cId));
+                        userAgain.Country = country;
+                        context.SaveChanges();
+                        result = UserManager.AddToRole(user.Id, "User");
+                        await UserManager.SetLockoutEnabledAsync(user.Id, true);
                     
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    return RedirectToAction("Index", "Home");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
             // If we got this far, something failed, redisplay form
+            
+                model.Countries = context.Countries.Select(c => new SelectListItem()
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
+
+            }
             return View(model);
         }
 
@@ -250,11 +291,15 @@ namespace GetCats.Controllers
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
+                if (db != null)
+                {
+                    db.Dispose();
+                    db = null;
+                }
             }
 
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

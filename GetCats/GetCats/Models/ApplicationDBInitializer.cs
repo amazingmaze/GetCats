@@ -11,18 +11,41 @@ namespace GetCats.Models
     /**
     Andreas Svensson 
     */
-    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext dbContext)
         {
             //creating two new identityRoles. 
-            var admin = new IdentityRole { Name = "Admin", Id = Guid.NewGuid().ToString() }; 
-            var user = new IdentityRole { Name = "User", Id = Guid.NewGuid().ToString() };
+            var admin = new IdentityRole { Name = User.PermissionStatus.Admin.ToString(), Id = Guid.NewGuid().ToString() }; 
+            var user = new IdentityRole { Name = User.PermissionStatus.User.ToString(), Id = Guid.NewGuid().ToString() };
+            var sweden = new Country()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Sweden"
+            };
+
+            var denmark = new Country()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Denmark"
+            };
+
+            var finland = new Country
+            {
+                Id = Guid.NewGuid(),
+                Name = "Finland"
+            };
+
             var newAdmin = new User()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "AdminGetCats@AdminGetCats.com",
+                Street = "Baba 12", 
+                Region = "Skåne", 
+                PostalCode = "12345", 
+                Country = sweden,
                 Email = "AdminGetCats@AdminGetCats.com",
+                Status = User.UserStatus.Active, 
                 PasswordHash = "ANgwBdpQon5+Jp4d2/6HiWutOoDwEVDo3OghvU3cH0lsPUQNUUyqRAP70sb/zZRMgA==",
                 //Password is Abc@123
                 SecurityStamp = "a4a45109-d97f-4f74-9f71-1ff60fd90dca",
@@ -44,7 +67,10 @@ namespace GetCats.Models
 
             dbContext.Roles.Add(admin); //create admin role
             dbContext.Roles.Add(user); //Create user role
-            dbContext.Users.Add(newAdmin); 
+            dbContext.Users.Add(newAdmin);
+            dbContext.Countries.Add(sweden);
+            dbContext.Countries.Add(denmark);
+            dbContext.Countries.Add(finland);
             base.Seed(dbContext);
         }
     }

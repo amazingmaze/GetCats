@@ -236,12 +236,14 @@
     <Compile Include="Models\DTO\CartItem.cs" />
     <Compile Include="Models\DTO\CartResult.cs" />
     <Compile Include="Models\Entities\Bid.cs" />
+    <Compile Include="Models\Entities\Country.cs" />
     <Compile Include="Models\Entities\Image.cs" />
     <Compile Include="Models\Entities\Order.cs" />
     <Compile Include="Models\Entities\PurchaseOption.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\ViewModels\AdminViewModels.cs" />
     <Compile Include="Models\ViewModels\ImageAddViewModel.cs" />
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
@@ -312,12 +314,13 @@
     <Content Include="Views\Image\Details.cshtml" />
     <Content Include="Views\Image\UploadImage.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Store\Preview\" />
     <Folder Include="Images\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

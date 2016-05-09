@@ -1,0 +1,65 @@
+﻿
+@model IEnumerable<GetCats.Models.ViewModels.AdminViewModel>
+
+<h2>List of users</h2>
+
+<div class="row box">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Country)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Street)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Region)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PostalCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Permission)
+                    </th>
+                </tr>
+            </thead>
+                @foreach (var user in Model)
+                 {
+                    <tr>
+                        <td>
+                            @user.Email
+                        </td>
+                        <td>
+                            @user.Country
+                        </td>
+                        <td>
+                            @user.Street
+                        </td>
+                        <td>
+                            @user.Region
+                        </td>
+                        <td>
+                            @user.PostalCode
+                        </td>
+                        <td>
+                            @user.Status
+                        </td>
+                        <td>
+                            @user.Permission
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-warning", @style = "color:white" })
+                        </td>
+                    </tr>
+                }
+        </table>
+    </div>
+</div>
