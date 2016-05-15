@@ -15,7 +15,7 @@ namespace GetCats.Services
             HttpContext.Current.Session["cart"] = null;
         }
 
-        public bool AddItemToCart(Guid purchaseOptionId)
+        public bool AddItemToCart(Guid purchaseOptionId, string email)
         {
             var result = false;
             var items = GetCartItems();
@@ -26,12 +26,19 @@ namespace GetCats.Services
                     var option = context.PurchaseOptions.FirstOrDefault(x => x.Id.Equals(purchaseOptionId));
                     if (option != null)
                     {
+                        var price = option.Price;
+                        var bid = option.Bids.FirstOrDefault(b => b.Bidder.Email.Equals(email));
+                        if (bid != null && bid.Status.Equals(Bid.BidStatus.Approved))
+                        {
+                            price = bid.Price;
+                        }
+
                         var cartItem = new CartItem
                         {
                             PurchaseOptionId = option.Id,
                             ImageId = option.ParentImage.Id,
                             Name = option.ParentImage.Name,
-                            Price = option.Price,
+                            Price = price,
                             Resolution = option.Resolution
                         };
                         items.Add(cartItem);

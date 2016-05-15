@@ -28,6 +28,8 @@ namespace GetCats.Models.Entities
         [Required]
         public BidStatus Status { get; set; } = BidStatus.Initial;
         [Required]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
+        [Required]
+        public virtual PurchaseOption ImageOption { get; set; }
     }
 }
