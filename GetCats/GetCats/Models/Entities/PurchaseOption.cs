@@ -28,7 +28,7 @@ namespace GetCats.Models.Entities
         public ImageResolution Resolution { get; set; }
         [Required]
         public int Price { get; set; }
-        public ICollection<Bid> Bids { get; set; }
+        public ICollection<Bid> Bids { get; set; } = new List<Bid>();
         public virtual Image ParentImage { get; set; }
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
