@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web;
 using GetCats.Models.DTO;
 using GetCats.Models.Entities;
@@ -27,7 +28,8 @@ namespace GetCats.Services
                     if (option != null)
                     {
                         var price = option.Price;
-                        var bid = option.Bids.FirstOrDefault(b => b.Bidder.Email.Equals(email));
+                        var bid = context.Bids.FirstOrDefault(x => x.Bidder.Email.Equals(email) && x.ImageOption.Id.Equals(purchaseOptionId));
+
                         if (bid != null && bid.Status.Equals(Bid.BidStatus.Approved))
                         {
                             price = bid.Price;

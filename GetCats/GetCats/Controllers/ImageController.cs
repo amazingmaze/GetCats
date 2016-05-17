@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using GetCats.Controllers.API;
 using GetCats.Models;
+using GetCats.Models.ApiModels;
 using GetCats.Models.Entities;
 using GetCats.Models.ViewModels;
 using GetCats.Services;
@@ -15,10 +16,12 @@ namespace GetCats.Controllers
     public class ImageController : Controller
     {
         private readonly ImageService _imageService;
+        private readonly BidService _bidService;
 
         public ImageController()
         {
             _imageService = new ImageService(); //Replace with injection?
+            _bidService = new BidService();
         }
 
         [Authorize]
@@ -30,11 +33,25 @@ namespace GetCats.Controllers
         [Authorize]
         public ActionResult Details(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("List");
+            }
             // Get image from web service
             var img = _imageService.GetImage(Guid.Parse(id));
-            // Pass into view
+
             return View(img);
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Bid(string optionId, string bid, string id)
+        {
+            // Add bid to db
+            _bidService.CreateBid(optionId, bid);
+            return RedirectToAction("Details", "Image", new {id});
+        }
+       
 
         //[Authorize(Roles = "Admin")] todo: CHANGE BACK
         public ActionResult UploadImage()
@@ -60,14 +77,18 @@ namespace GetCats.Controllers
                     Name = model.Name
                 };
 
-                var opt1 = new PurchaseOption {Price = model.Options.Price, Resolution = model.Options.Resolution};
+                //var opt1 = new PurchaseOption {Price = model.Options.Price, Resolution = model.Options.Resolution};
 
                 // Get id back?
                 var imgId = imgService.InsertImage(img, new PurchaseOption[]
                 {
-                    opt1
+                    //opt1
+                    model.LowRes,
+                    model.HighRes,
+                    model.MaxRes
                 }
                     );
+
 
                 // Save image to disk ( /images/{id + fileName?}
                 var path = System.IO.Path.Combine(Server.MapPath("~/Images/"), imgId + model.File.FileName);

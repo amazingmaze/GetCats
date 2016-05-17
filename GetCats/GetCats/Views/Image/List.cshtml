@@ -31,11 +31,11 @@
                                         item.Id +
                                         '"><img src="' +
                                         url +
-                                        '" height="250" width="300"/> </a>' +
+                                        '" height="250" width="300" class="img-thumbnail"/> </a>' +
                                         '<div>' +
                                         item.Name +
                                         '</div>' +
-                                        '<i class="glyphicon glyphicon-shopping-cart pull-right icons" onclick="addToCart(\'' + item.Options[0].Id + '\');"></i>' +
+                                        '<i class="glyphicon glyphicon-shopping-cart pull-right icons" style="cursor:pointer" onclick="addToCart(\'' + item.Options[0].Id + '\');"></i>' +
                                         '<i class="glyphicon glyphicon-fullscreen pull-right icons"></i>' +
                                         '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' +
                                         '</li>');

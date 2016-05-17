@@ -32,22 +32,55 @@
             </div>
 
 
-            <!-- CHANGE THIS TO A LIST (?) todo: KOLLA ÖVER-->
             <div class="form-group">
-                @Html.LabelFor(model => model.Options.Resolution, htmlAttributes: new {@class = "control-label col-md-2"})
+                <label class="control-label col-md-2"> Low resolution: </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Options.Resolution, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.Options.Resolution, "", new {@class = "text-danger"})
+                    @Html.HiddenFor(model => model.LowRes.Resolution, new { @Value = "Low" })
+                    @Html.EditorFor(model => model.LowRes.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LowRes.Price, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Options.Price, htmlAttributes: new {@class = "control-label col-md-2"})
+                <label class="control-label col-md-2"> High resolution: </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Options.Price, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.Options.Price, "", new {@class = "text-danger"})
+                    @Html.HiddenFor(model => model.HighRes.Resolution, new { @Value = "High" })
+                    @Html.EditorFor(model => model.HighRes.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HighRes.Price, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Max resolution: </label>
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.MaxRes.Resolution, new { @Value = "Max" })
+                    @Html.EditorFor(model => model.MaxRes.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaxRes.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            @*
+    <!-- CHANGE THIS TO A LIST (?) todo: KOLLA ÖVER-->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Options.Resolution, htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Options.Resolution, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.Options.Resolution, "", new {@class = "text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Options.Price, htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Options.Price, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.Options.Price, "", new {@class = "text-danger"})
+        </div>
+    </div>
+        *@    
+            
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

@@ -18,6 +18,7 @@ namespace GetCats.Models
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<PurchaseOption> PurchaseOptions { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Bid> Bids { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {

@@ -15,6 +15,9 @@ namespace GetCats.Models.ViewModels
         [FileTypes("jpg,jpeg,png")]
         public HttpPostedFileBase File { get; set; }
         public string FileName { get; set; }
-        public PurchaseOption Options { get; set; }
+        //public PurchaseOption Options { get; set; }
+        public PurchaseOption LowRes { get; set; }
+        public PurchaseOption HighRes { get; set; }
+        public PurchaseOption MaxRes { get; set; }
     }
 }

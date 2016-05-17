@@ -1,4 +1,5 @@
-﻿@model GetCats.Models.ApiModels.ImageApiModel
+﻿@using GetCats.Models.ViewModels
+@model GetCats.Models.ApiModels.ImageApiModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,25 +7,101 @@
 
 <h2>Details</h2>
 
-<div class="form-horizontal box">
+<div class="form-horizontal box container">
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+    <div class="row container">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FileName)
-        </dt>
+        <div class="col-md-4">
 
-        <dd>
-            @Html.DisplayFor(model => model.FileName)
-        </dd>
+            @{
+                var url = "/Images/" + Model.Id + Model.FileName;
+            }
 
-    </dl>
+            <img class="img-thumbnail" src="@url" height="300" width="350" />
+            <p>
+                <label>@Html.DisplayNameFor(model => model.Name)</label>
+                @Html.DisplayFor(model => model.Name)
+            </p>
+            <p>
+                <label> @Html.DisplayNameFor(model => model.FileName) </label>
+                @Html.DisplayFor(model => model.FileName)
+            </p>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <br />
+                <table class="table">
+
+                    <tr>
+                        <td>Resolution</td>
+                        <td>Price</td>
+                        <td>Status</td>
+                        <td>Bid Price</td>
+                        <td>Buy</td>
+                    </tr>
+
+                    @foreach (var opt in Model.Options)
+                    {
+
+                        <tr>
+                            <td>@opt.Resolution.ToString()</td>
+                            <td>@opt.Price</td>
+
+                            @if (opt.Bid != null)
+                            {
+                                switch (opt.Bid.Status)
+                                {
+                                    case GetCats.Models.Entities.Bid.BidStatus.Initial:
+                                        <td style="background-color: orange">@opt.Bid.Status</td>
+                                        <td>@opt.Bid.Bid</td>
+                                        <td></td>
+                                        break;
+                                    case GetCats.Models.Entities.Bid.BidStatus.Approved:
+                                        <td style="background-color: green">@opt.Bid.Status</td>
+                                        <td>@opt.Bid.Bid</td>
+                                        <td><i style="cursor:pointer" class="glyphicon glyphicon-shopping-cart icons" onclick="addToCart('@opt.Id')"></i></td>
+                                        break;
+                                    default:
+                                        <td style="background-color: red">@opt.Bid.Status</td>
+                                        <td>@opt.Bid.Bid</td>
+                                        <td></td>
+                                        break;
+                                }
+
+
+                            }
+                            else
+                            {
+                                <td>No bid</td>
+                                <td></td>
+                                <td> <i style="cursor:pointer" class="glyphicon glyphicon-shopping-cart icons" onclick="addToCart('@opt.Id')"></i> </td>
+                                <td>
+                                    @using (Html.BeginForm("Bid", "Image", FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="optionId" value="@opt.Id" />
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="text" name="bid" />
+                                        <button type="submit">Bid</button>
+                                    }
+                                </td>
+
+                            }
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    
+
+
+
 </div>
 
