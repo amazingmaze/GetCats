@@ -30,8 +30,7 @@ namespace GetCats.Models.Entities
         public string PostalCode { get; set; }
         public virtual Country Country { get; set; }
         [Required]
-        public UserStatus Status { get; set; } = UserStatus.Active;
-
+        public UserStatus Status { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

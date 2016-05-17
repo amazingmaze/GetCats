@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "Get Cats";
 }
-
-
-
 <div class="container">
         <div class="form-group search">
             <input type="text" class="form-control" id="search" value="Search...">
@@ -13,44 +10,42 @@
 
         <!-- GET ALL THE IMAGES FROM WEB API. PRINT THEM OUT-->
         <script>
+                $(function() {
+                    $.getJSON("/api/images/getimages",
+                        function(result) {
 
-            $(function() {
+                            $.each(result,
+                                function(index, item) {
+                                    var url = "/Images/" + item.Id + item.FileName;
+                                    console.log("ID: " + item.Id + " : Name: " + item.Name + " Url : " + url);
+                                    $("#list")
+                                        .append(
+                                            '<li class="list-group-item tilt">' +
+                                            '<a class="listItem" id= "' +
+                                            item.Id +
+                                            '"><img src="' +
+                                            url +
+                                            '" height="250" width="300"/> </a>' +
+                                            '<div>' +
+                                            item.Name +
+                                            '</div>' +
+                                            '<i class="glyphicon glyphicon-shopping-cart pull-right icons" onclick="addToCart(\'' + item.Options[0].Id + '\');"></i>' +
+                                            '<i class="glyphicon glyphicon-fullscreen pull-right icons"></i>' +
+                                            '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' +
+                                            '</li>');
+                                });
 
-                $.getJSON("/api/images/getimages",
-                    function(result) {
+                            // Add on click listener on each listItem
+                            $(".listItem")
+                                .click(function() {
+                                    var id = $(this).attr('id');
+                                    window.location.replace("/Image/Details?id=" + id);
+                                    console.log("Pressed img: " + id);
+                                });
+                        });
 
-                        $.each(result,
-                            function(index, item) {
-                                var url = "/Images/" + item.Id + item.FileName;
+                });
 
-                                console.log("ID: " + item.Id + " : Name: " + item.Name + " Url : " + url);
-                                $("#list")
-                                    .append(
-                                        '<li class="list-group-item tilt">' +
-                                        '<a class="listItem" id= "' +
-                                        item.Id +
-                                        '"><img src="' +
-                                        url +
-                                        '" height="250" width="300"/> </a>' +
-                                        '<div>' +
-                                        item.Name +
-                                        '</div>' +
-                                        '<i class="glyphicon glyphicon-shopping-cart pull-right icons" onclick="addToCart(\'' + item.Options[0].Id + '\');"></i>' +
-                                        '<i class="glyphicon glyphicon-fullscreen pull-right icons"></i>' +
-                                        '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' +
-                                        '</li>');
-                            });
-
-                        // Add on click listener on each listItem
-                        $(".listItem")
-                            .click(function() {
-                                var id = $(this).attr('id');
-                                window.location.replace("/Image/Details?id=" + id);
-                                console.log("Pressed img: " + id);
-                            });
-                    });
-
-            });
 
         </script>
 

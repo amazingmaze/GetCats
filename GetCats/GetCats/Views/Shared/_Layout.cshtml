@@ -28,6 +28,7 @@
                         {
                             <li>@Html.ActionLink("List Users", "Index", "Admin")</li>
                             <li>@Html.ActionLink("Upload Image", "UploadImage", "Image")</li>
+                            <li>@Html.ActionLink("Bids", "ListBids", "Bid")</li>
                         }
                         else
                         {
@@ -52,6 +53,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/site")
-    @RenderSection("scripts", required: false)
+    @if (IsSectionDefined("scripts"))
+    {
+        @RenderSection("scripts", required: false)
+    }
 </body>
 </html>
