@@ -56,7 +56,7 @@ namespace GetCats.Controllers
                     order.Status = Order.OrderStatus.Payed;
                     order.StatusChanged = DateTime.Now;
                     _context.SaveChanges();
-                    _emailService.SendOrderConfirmation("daniel@ryhle.se", order.Id.ToString(), order.Total, GetPurchasedItems(order));
+                    _emailService.SendOrderConfirmation(User.Identity.Name, order.Id.ToString(), order.Total, GetPurchasedItems(order));
                     return RedirectToAction("View", new { controller = "Orders", id });
                 }
             }
