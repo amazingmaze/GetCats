@@ -50,11 +50,9 @@
             // Async get images from API.
             $.getJSON(imagesUrl,
                 function (result) {
-
                     $.each(result,
                         function (index, item) {
                             var url = "/Images/" + item.Id + item.FileName;
-                            console.log("ID: " + item.Id + " : Name: " + item.Name + " Url : " + url);
                             $("#list")
                                 .append(
                                     '<li class="list-group-item tilt">' +
@@ -80,7 +78,6 @@
                         .click(function () {
                             var id = $(this).attr('id');
                             window.location.replace("/Image/Details?id=" + id);
-                            console.log("Pressed img: " + id);
                         });
                 });
         }

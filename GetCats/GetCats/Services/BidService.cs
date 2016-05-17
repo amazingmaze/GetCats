@@ -31,8 +31,8 @@ namespace GetCats.Services
         public void CreateBid(string optionId, string bid)
         {
             using (var context = ApplicationDbContext.Create())
-            {                     
-
+            {
+                if (string.IsNullOrEmpty(optionId) || string.IsNullOrEmpty(bid)) return;
                 context.Bids.Add(
                     new Bid
                     {
