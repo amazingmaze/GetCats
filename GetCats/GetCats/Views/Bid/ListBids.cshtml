@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "ListBids";
+}
+
+
+<h2>List of Bids</h2>
+
+<div class="row box">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> </th>
+                </tr>
+            </thead>
+            @foreach (var bid in Model)
+            {
+                <tr>
+                    <td> /td>
+                    <td>
+                        @Html.ActionLink("Aprrove", "ApproveBid", "Bid", new {id = bid.Id}, new {@class = "btn btn-success", @style = "color:white"}) |
+                        @Html.ActionLink("Disapprove", "DisapproveBid", "Bid", new { id = bid.Id }, new { @class = "btn btn-danger", @style = "color:white" }) |
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+

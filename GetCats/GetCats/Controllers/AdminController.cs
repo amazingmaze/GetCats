@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using GetCats.Models;
 using GetCats.Models.Entities;
 using GetCats.Models.ViewModels;
@@ -48,36 +50,46 @@ namespace GetCats.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var permission = "";
-            if (User.IsInRole("Admin"))
+            var userList = new List<AdminViewModel>();
+            var users = db.Users.ToList();
+            foreach (var user in users)
             {
-                permission = Models.Entities.User.PermissionStatus.Admin.ToString();
-            }
-            else
-            {
-                permission = Models.Entities.User.PermissionStatus.User.ToString();
-            }
-            var model = db.Users.Select(user => new AdminViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Street = user.Street,
-                Country = user.Country.Name,
-                Region = user.Region,
-                PostalCode = user.PostalCode,
-                Status = user.Status.ToString(),
-                Permission = permission
-            }).ToList();
+                var roles = UserManager.GetRoles(user.Id);
+                var roleName = "User";
+                if (roles.Contains("Admin"))
+                {
+                    roleName = "Admin";
+                }
 
-            return View(model);
+                userList.Add(new AdminViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Street = user.Street,
+                    Country = user.Country.Name,
+                    Region = user.Region,
+                    PostalCode = user.PostalCode,
+                    Status = user.Status.ToString(),
+                    Permission = roleName
+                });
+            }
+
+            return View(userList);
         }
+
 
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             AdminViewModel model = null;
             var permission = "";
-            if (User.IsInRole("Admin"))
+            var status = "";
+            var roles = UserManager.GetRoles(id);
+            var isLockedOut = UserManager.IsLockedOut(id); 
+            Debug.WriteLine(UserManager.GetLockoutEnabled(id));
+            Debug.WriteLine("Islockedout... " + UserManager.IsLockedOut(id));
+
+            if (roles.Contains("Admin"))
             {
                 permission = "1";
             }
@@ -85,6 +97,15 @@ namespace GetCats.Controllers
             {
                 permission = "0";
             }
+            if(isLockedOut.Equals(true) )
+            {
+                status = "0";
+            }
+            else
+            {
+                status = "1";
+            }
+
             model = db.Users.Where(u => u.Id.Equals(id)).Select(o => new AdminViewModel
             {
                 Street = o.Street,
@@ -92,10 +113,10 @@ namespace GetCats.Controllers
                 Country = o.Country.Id.ToString(),
                 PostalCode = o.PostalCode,
                 Email = o.Email,
-                Status = o.Status.ToString(),
+                Status = status,
                 Id = o.Id,
                 Countries = db.Countries.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
-                Permission = permission
+                Permission = permission,
             }).First();
             return View(model);
         }
