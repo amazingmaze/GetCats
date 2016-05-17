@@ -34,7 +34,6 @@ namespace GetCats.Services
                         {
                             price = bid.Price;
                         }
-
                         var cartItem = new CartItem
                         {
                             PurchaseOptionId = option.Id,
