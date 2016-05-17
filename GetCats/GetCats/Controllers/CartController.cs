@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using GetCats.Models;
+using GetCats.Models.ApiModels;
 using GetCats.Models.DTO;
 using GetCats.Models.Entities;
 using GetCats.Services;
@@ -20,12 +21,14 @@ namespace GetCats.Controllers
         private readonly PayPalService _paypalService;
         private readonly CartService _cartService;
         private readonly ApplicationDbContext _context;
+        private readonly OrderEmailService _emailService;
 
         public CartController()
         {
             _paypalService = new PayPalService();
             _cartService = new CartService();
             _context = ApplicationDbContext.Create();
+            _emailService = new OrderEmailService();
         }
 
         // GET: Cart
@@ -53,11 +56,36 @@ namespace GetCats.Controllers
                     order.Status = Order.OrderStatus.Payed;
                     order.StatusChanged = DateTime.Now;
                     _context.SaveChanges();
+                    _emailService.SendOrderConfirmation("daniel@ryhle.se", order.Id.ToString(), order.Total, GetPurchasedItems(order));
                     return RedirectToAction("View", new { controller = "Orders", id });
                 }
             }
 
             throw new Exception("Payment failed");
+        }
+
+        private List<PurchasedItemApiModel> GetPurchasedItems(Order order)
+        {
+            var items = new List<PurchasedItemApiModel>();
+            foreach (var option in order.Items)
+            {
+                var price = option.Price;
+                var email = HttpContext.User.Identity.Name;
+                var bid = _context.Bids.FirstOrDefault(x => x.ImageOption.Id.Equals(option.Id) && x.Bidder.Email.Equals(email));
+                if (bid != null && bid.Status == Bid.BidStatus.Approved)
+                {
+                    price = bid.Price;
+                }
+
+                items.Add(new PurchasedItemApiModel
+                {
+                    Name = option.ParentImage.Name,
+                    Price = price,
+                    Resolution = option.Resolution,
+                    Url = "Some url!"
+                });
+            }
+            return items;
         }
 
         public async Task<ActionResult> Pay()

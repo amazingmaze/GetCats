@@ -233,6 +233,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiModels\ImageApiModel.cs" />
+    <Compile Include="Models\ApiModels\PurchasedItemApiModel.cs" />
     <Compile Include="Models\ApiModels\PurchaseOptionApiModel.cs" />
     <Compile Include="Models\ApplicationDBInitializer.cs" />
     <Compile Include="Models\DTO\CartItem.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BidService.cs" />
     <Compile Include="Services\CartService.cs" />
+    <Compile Include="Services\OrderEmailService.cs" />
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\PayPalService.cs" />
     <Compile Include="Startup.cs" />
