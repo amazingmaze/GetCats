@@ -23,19 +23,20 @@ namespace GetCats.Services
                 var image = context.Images.Find(id);
                 var user = context.Users.Find(HttpContext.Current.User.Identity.GetUserId());
 
-                // Test
+                
                 var test = context.Bids.Where(x => x.Bidder.Email.Equals(user.Email)).ToList();
                 foreach (var t in test)
                 {
-                    Debug.WriteLine("Bid Id: " + t.Id + " : Bid Price: " + t.Price);
+                    Debug.WriteLine("Found bids.. id: " + t.Id);
                 }
+                
 
                 return new ImageApiModel
                 {
                     Id = image.Id.ToString(),
                     Name = image.Name,
                     FileName = image.FileName,
-                    Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString(), Resolution = x.Resolution, Price = x.Price, Bid = x.Bids.Where(u => u.Bidder.Email.Equals(user.Email)).Select(b => new OptionBidViewModel { Bid = b.Price, Status = b.Status }).FirstOrDefault() }).ToArray()
+                    Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString(), Resolution = x.Resolution, Price = x.Price, Bid = x.Bids.Where(u => u.Bidder.Email.Equals(user.Email)).Select(b => new OptionBidViewModel { Bid = b.Price, Status = b.Status, BidId = b.Id }).FirstOrDefault() }).ToArray()
                 };
             }
         }
