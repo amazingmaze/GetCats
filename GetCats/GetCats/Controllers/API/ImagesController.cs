@@ -24,5 +24,11 @@ namespace GetCats.Controllers.API
             
             return Json(_imageService.GetImages());
         }
+
+        [HttpGet]
+        public IHttpActionResult GetImages(string search)
+        {
+            return Json(_imageService.GetImages(search));
+        }
     }
 }

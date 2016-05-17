@@ -58,6 +58,24 @@ namespace GetCats.Services
             }
         }
 
+        public List<ImageApiModel> GetImages(string search)
+        {
+            using (var context = ApplicationDbContext.Create())
+            {
+                
+                return (from image in context.Images.ToList()
+                        where image.Name.Contains(search)
+                        select new ImageApiModel
+                        {
+                            Id = image.Id.ToString(),
+                            Name = image.Name,
+                            FileName = image.FileName,
+                            Options = image.Options.Select(x => new PurchaseOptionApiModel { Id = x.Id.ToString() }).ToArray()
+                        }).ToList();
+                        
+            }
+        }
+
         public Guid InsertImage(Image img, PurchaseOption[] options)
         {
 
