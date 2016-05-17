@@ -13,16 +13,6 @@ namespace GetCats.Controllers
     {
         private readonly ImageService _imageService;
         private readonly BidService _bidService; 
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         public ImageController()
         {
@@ -31,24 +21,9 @@ namespace GetCats.Controllers
         }
 
         [Authorize]
-        public ActionResult List(string search)
+        public ActionResult List()
         {
-            Debug.WriteLine("LIST METHOD USED ");
-            if (String.IsNullOrEmpty(search))
-        {
-                Debug.WriteLine("search contains nothing ");
             return View();
-        }
-            var model =
-                db.Images.Where(x => search == null || x.Name.StartsWith(search))
-                    .Take(10)
-                    .Select(u => new ImageViewModel
-                    {
-                        Id = u.Id,
-                        Name = u.Name,
-                    }).ToList();
-            Debug.WriteLine("search contains SOMETHING ");
-            return View(model);
         }
 
         [Authorize]
@@ -84,14 +59,14 @@ namespace GetCats.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin")] todo: CHANGE BACK
+        [Authorize(Roles = "Admin")] 
         public ActionResult UploadImage()
         {
             return View(new ImageAddViewModel());
         }
 
-        //[Authorize(Roles = "Admin")]
-        [HttpPost] // todo: KOLLA ÖVER DENNA
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         public ActionResult UploadImage(ImageAddViewModel model)
         {
 

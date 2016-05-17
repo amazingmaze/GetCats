@@ -10,16 +10,19 @@
     <div class="row">
         <div class="form-group search">
             <div class="col-md-3">
-                <input type="text" class="form-control" id="searchBox">
-            </div>            
+                <span style="color: white">Search</span>
+                <input type="text" class="form-control input-sm" id="searchBox">
+            </div>
         </div>
     </div>
-    <!-- GET ALL THE IMAGES FROM WEB API. PRINT THEM OUT-->
+
     <script>
-        $(function() {
+
+        $(function () {
             list();
         });
 
+        // Just to trigger a search on "enter"
         $('#searchBox')
             .keypress(function(e) {
                 if (e.which == 13) {
@@ -28,7 +31,11 @@
                 }
             });
 
+
+        // Listing images. If theres a value in the searchBox use that to get images with names containing that value.
         function list() {
+
+            // This part concerns search
             $("#list").empty();
             var search = $("#searchBox").val();
 
@@ -39,6 +46,8 @@
                 $("#searchBox").val = ""; 
             }
 
+
+            // Async get images from API.
             $.getJSON(imagesUrl,
                 function (result) {
 
@@ -63,7 +72,6 @@
                                     '<i class="glyphicon glyphicon-fullscreen pull-right icons details cursor-pointer" id= "' +
                                     item.Id +
                                     '"></i>' +
-                                    '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' +
                                     '</li>');
                         });
 

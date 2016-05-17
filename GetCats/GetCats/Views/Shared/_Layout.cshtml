@@ -26,9 +26,10 @@
                     {
                         if (User.IsInRole("Admin"))
                         {
+                            <li>@Html.ActionLink("Images", "List", "Image")</li>
                             <li>@Html.ActionLink("List Users", "Index", "Admin")</li>
                             <li>@Html.ActionLink("Upload Image", "UploadImage", "Image")</li>
-                            <li>@Html.ActionLink("Bids", "ListBids", "Bid")</li>
+                            <li>@Html.ActionLink("Bids", "ListBids", "Bid")</li>       
                         }
                         else
                         {
