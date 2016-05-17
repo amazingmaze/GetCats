@@ -43,5 +43,20 @@ namespace GetCats.Services
                 context.SaveChanges();
             }
         }
+
+        public void RemoveBid(string bidId)
+        {
+            using (var context = ApplicationDbContext.Create())
+            {
+                var bidGuid = Guid.Parse(bidId);
+                var bid = context.Bids.FirstOrDefault(x => x.Id.Equals(bidGuid)); //returns a single item.
+
+                if (bid != null)
+                {
+                    context.Bids.Remove(bid);
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }

@@ -5,7 +5,6 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
 <div class="form-horizontal box container">
 
@@ -18,16 +17,17 @@
                 var url = "/Images/" + Model.Id + Model.FileName;
             }
 
-            <img class="img-thumbnail" src="@url" height="300" width="350" />
-            <p>
-                <label>@Html.DisplayNameFor(model => model.Name)</label>
-                @Html.DisplayFor(model => model.Name)
-            </p>
-            <p>
-                <label> @Html.DisplayNameFor(model => model.FileName) </label>
-                @Html.DisplayFor(model => model.FileName)
-            </p>
-
+            <img class="img-thumbnail" src="@url" height="300" width="350"/>
+            <div class="well well-sm">
+                <p>
+                    <label>@Html.DisplayNameFor(model => model.Name): </label>
+                    @Html.DisplayFor(model => model.Name)
+                </p>
+                <p>
+                    <label> @Html.DisplayNameFor(model => model.FileName): </label>
+                    @Html.DisplayFor(model => model.FileName)
+                </p>
+            </div>
         </div>
 
         <div class="col-md-8">
@@ -36,11 +36,12 @@
                 <table class="table">
 
                     <tr>
-                        <td>Resolution</td>
-                        <td>Price</td>
-                        <td>Status</td>
-                        <td>Bid Price</td>
-                        <td>Buy</td>
+                        <td><strong>Resolution</strong></td>
+                        <td><strong>Price</strong></td>
+                        <td><strong>Status</strong></td>
+                        <td><strong>Bid</strong></td>
+                        <td></td>
+                        <td></td>
                     </tr>
 
                     @foreach (var opt in Model.Options)
@@ -57,16 +58,19 @@
                                     case GetCats.Models.Entities.Bid.BidStatus.Initial:
                                         <td style="background-color: orange">@opt.Bid.Status</td>
                                         <td>@opt.Bid.Bid</td>
+                                        <td> <a href="@Url.Action("RemoveBid", "Image", new {id = Model.Id, bidId = opt.Bid.BidId})"><i style="cursor: pointer; color: black;" class="glyphicon glyphicon-trash icons"></i></a></td>
                                         <td></td>
                                         break;
                                     case GetCats.Models.Entities.Bid.BidStatus.Approved:
                                         <td style="background-color: green">@opt.Bid.Status</td>
                                         <td>@opt.Bid.Bid</td>
-                                        <td><i style="cursor:pointer" class="glyphicon glyphicon-shopping-cart icons" onclick="addToCart('@opt.Id')"></i></td>
+                                        <td><i style="cursor: pointer" class="glyphicon glyphicon-shopping-cart icons" onclick="addToCart('@opt.Id')"></i></td>
+                                        <td> <span> <i class="glyphicon glyphicon-chevron-left"></i>  Buy for bid price</span></td>
                                         break;
                                     default:
                                         <td style="background-color: red">@opt.Bid.Status</td>
                                         <td>@opt.Bid.Bid</td>
+                                        <td></td>
                                         <td></td>
                                         break;
                                 }
@@ -83,8 +87,8 @@
                                     {
                                         <input type="hidden" name="optionId" value="@opt.Id" />
                                         <input type="hidden" name="id" value="@Model.Id" />
-                                        <input type="text" name="bid" />
-                                        <button type="submit">Bid</button>
+                                        <input type="text"  size="5" style="length" name="bid" />
+                                        <button class="btn btn-default" type="submit" data-toggle="tooltip" title="Place a bid!">Bid</button>
                                     }
                                 </td>
 

@@ -10,6 +10,10 @@
     color: #222;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 #logoImg {
     padding-top: 10px;
 }
@@ -122,11 +126,11 @@ textarea {
 }
  
 .tilt:hover {
-  -webkit-transform: rotate(-5deg);
-     -moz-transform: rotate(-5deg);
-       -o-transform: rotate(-5deg);
-      -ms-transform: rotate(-5deg);
-          transform: rotate(-5deg);
+  -webkit-transform: rotate(-2deg);
+     -moz-transform: rotate(-2deg);
+       -o-transform: rotate(-2deg);
+      -ms-transform: rotate(-2deg);
+          transform: rotate(-2deg);
 }
 
 

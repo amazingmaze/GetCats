@@ -22,7 +22,6 @@
                         $.each(result,
                             function(index, item) {
                                 var url = "/Images/" + item.Id + item.FileName;
-
                                 console.log("ID: " + item.Id + " : Name: " + item.Name + " Url : " + url);
                                 $("#list")
                                     .append(
@@ -31,18 +30,18 @@
                                         item.Id +
                                         '"><img src="' +
                                         url +
-                                        '" height="250" width="300" class="img-thumbnail"/> </a>' +
+                                        '" height="250" width="300" class="cursor-pointer"/> </a>' +
                                         '<div>' +
                                         item.Name +
                                         '</div>' +
                                         '<i class="glyphicon glyphicon-shopping-cart pull-right icons" style="cursor:pointer" onclick="addToCart(\'' + item.Options[0].Id + '\');"></i>' +
-                                        '<i class="glyphicon glyphicon-fullscreen pull-right icons"></i>' +
-                                        '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' +
+                                        '<i class="glyphicon glyphicon-fullscreen pull-right icons details cursor-pointer" id= "' +item.Id + '"></i>' +
+                                        '<i class="glyphicon glyphicon-thumbs-up pull-right icons"></i>' + 
                                         '</li>');
                             });
 
                         // Add on click listener on each listItem
-                        $(".listItem")
+                        $(".listItem, .details")
                             .click(function() {
                                 var id = $(this).attr('id');
                                 window.location.replace("/Image/Details?id=" + id);
