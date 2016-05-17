@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
+using GetCats.Models;
 using GetCats.Models.Entities;
 using GetCats.Models.ViewModels;
 using GetCats.Services;
