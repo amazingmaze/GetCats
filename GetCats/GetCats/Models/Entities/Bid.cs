@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GetCats.Models.Entities
 {
     public class Bid
@@ -31,5 +26,6 @@ namespace GetCats.Models.Entities
         public int Price { get; set; }
         [Required]
         public virtual PurchaseOption ImageOption { get; set; }
+
     }
 }
