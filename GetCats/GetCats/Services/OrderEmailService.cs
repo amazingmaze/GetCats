@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using GetCats.Models.ApiModels;
+using GetCats.Models.Entities;
 
 namespace GetCats.Services
 {
     public class OrderEmailService
     {
         private readonly SmtpClient _client;
+        private static string _path = "/Images/";
 
         public OrderEmailService()
         {
@@ -24,10 +26,21 @@ namespace GetCats.Services
 
         public void SendOrderConfirmation(string targetEmail, string orderNr, int total, List<PurchasedItemApiModel> items)
         {
+            var url = HttpContext.Current.Request.Url.Authority + _path;
+
             var itemHtml = "<table><tr><th>Name</th><th>Resolution</th><th>Url</th><th>Price</th></tr></thead><tbody>";
             foreach (var item in items)
             {
-                itemHtml += $"<tr><td>{item.Name}</td><td>{item.Resolution.ToString()}</td><td>{item.Url}</td><td>{item.Price}</td></tr>";
+                var itemUrl = url + item.Id + item.FileName;
+                if (item.Resolution.Equals(PurchaseOption.ImageResolution.Low))
+                {
+                    itemUrl += "?w=200";
+                }
+                else if (item.Resolution.Equals(PurchaseOption.ImageResolution.High))
+                {
+                    itemUrl += "?w=400";
+                }
+                itemHtml += $"<tr><td>{item.Name}</td><td>{item.Resolution.ToString()}</td><td>{itemUrl}</td><td>{item.Price}</td></tr>";
             }
             itemHtml += "</tbody></table>";
 

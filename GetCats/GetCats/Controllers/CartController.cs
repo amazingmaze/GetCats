@@ -82,7 +82,8 @@ namespace GetCats.Controllers
                     Name = option.ParentImage.Name,
                     Price = price,
                     Resolution = option.Resolution,
-                    Url = "Some url!"
+                    Id = option.ParentImage.Id,
+                    FileName = option.ParentImage.FileName
                 });
             }
             return items;

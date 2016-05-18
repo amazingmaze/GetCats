@@ -13,6 +13,6 @@ namespace GetCats.Models.DTO
         public Guid ImageId;
         public string Name { get; set; }
         public int Price { get; set; }
-        public PurchaseOption.ImageResolution Resolution { get; set; }
+        public string Resolution { get; set; }
     }
 }

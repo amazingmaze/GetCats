@@ -40,7 +40,7 @@ namespace GetCats.Services
                             ImageId = option.ParentImage.Id,
                             Name = option.ParentImage.Name,
                             Price = price,
-                            Resolution = option.Resolution
+                            Resolution = option.Resolution.ToString()
                         };
                         items.Add(cartItem);
                         InserCartItems(items);

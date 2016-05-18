@@ -9,7 +9,8 @@ namespace GetCats.Models.ApiModels
     public class PurchasedItemApiModel
     {
         public string Name { get; set; }
-        public string Url { get; set; }
+        public string FileName { get; set; }
+        public Guid Id { get; set; }
         public PurchaseOption.ImageResolution Resolution { get; set; }
         public int Price { get; set; }
     }

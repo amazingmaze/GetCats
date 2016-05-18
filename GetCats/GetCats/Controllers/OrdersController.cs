@@ -58,7 +58,7 @@ namespace GetCats.Controllers
                         Items = order.Items.Select(x => new CartItem
                         {
                             Name = x.ParentImage.Name,
-                            Resolution = x.Resolution,
+                            Resolution = x.Resolution.ToString(),
                             Price = x.Price,
                             ImageId = x.ParentImage.Id,
                         }).ToList()
