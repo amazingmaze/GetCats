@@ -7,6 +7,7 @@
 
 
 <div class="container">
+    
     <div class="row">
         <div class="form-group search">
             <div class="col-md-3">
@@ -18,7 +19,7 @@
 
     <script>
 
-        $(function () {
+        $(function() {
             list();
         });
 
@@ -43,15 +44,15 @@
 
             if (search) {
                 imagesUrl += "?search=" + search;
-                $("#searchBox").val = ""; 
+                $("#searchBox").val = "";
             }
 
 
             // Async get images from API.
             $.getJSON(imagesUrl,
-                function (result) {
+                function(result) {
                     $.each(result,
-                        function (index, item) {
+                        function(index, item) {
                             var url = "/Images/" + item.Id + item.FileName;
                             $("#list")
                                 .append(
@@ -75,7 +76,7 @@
 
                     // Add on click listener on each listItem
                     $(".listItem, .details")
-                        .click(function () {
+                        .click(function() {
                             var id = $(this).attr('id');
                             window.location.replace("/Image/Details?id=" + id);
                         });
