@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<GetCats.Models.ViewModels.ListBidViewModel>
 @{
     ViewBag.Title = "ListBids";
 }
@@ -6,26 +6,45 @@
 
 <h2>List of Bids</h2>
 
+
+
 <div class="row box">
     <div class="col-md-12">
         <table class="table">
             <thead>
-                <tr>
-                    <th> </th>
-                </tr>
+            <tr>
+                <th> @Html.DisplayNameFor(model => model.Email)</th>
+                <th> @Html.DisplayNameFor(model => model.ImageName)</th>
+                <th> @Html.DisplayNameFor(model => model.Resolution)</th>
+                <th> @Html.DisplayNameFor(model => model.Status)</th>
+                <th> @Html.DisplayNameFor(model => model.Email)</th>
+                <th> @Html.DisplayNameFor(model => model.Price)</th>
+                <th> @Html.DisplayNameFor(model => model.Bid)</th>
+
+
+            </tr>
             </thead>
+
             @foreach (var bid in Model)
             {
                 <tr>
-                    <td> /td>
+                    <td> @bid.Email</td>
+                    <td> @bid.ImageName</td>
+                    <td> @bid.Resolution</td>
+                    <td> @bid.Status</td>
+                    <td> @bid.Email</td>
+                    <td> @bid.Price</td>
+                    <td> @bid.Bid</td>
                     <td>
-                        @Html.ActionLink("Aprrove", "ApproveBid", "Bid", new {id = bid.Id}, new {@class = "btn btn-success", @style = "color:white"}) |
-                        @Html.ActionLink("Disapprove", "DisapproveBid", "Bid", new { id = bid.Id }, new { @class = "btn btn-danger", @style = "color:white" }) |
-
+                        @Html.ActionLink("Approve", "ConfirmBid", "Bid", new {bidId = bid.BidId.ToString(), status = 0}, new {@class = "btn btn-success", @style = "color:white"})
+                        @Html.ActionLink("Disapprove", "ConfirmBid", "Bid", new {bidId = bid.BidId.ToString(), status = 1}, new {@class = "btn btn-danger", @style = "color:white"})
                     </td>
+            
                 </tr>
             }
+            
         </table>
+        
     </div>
 </div>
 

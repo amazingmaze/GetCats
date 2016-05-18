@@ -254,6 +254,7 @@
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ViewModels\AdminViewModels.cs" />
+    <Compile Include="Models\ViewModels\ListBidViewModel.cs" />
     <Compile Include="Models\ViewModels\NewBidViewModel.cs" />
     <Compile Include="Models\ViewModels\OptionBidViewModel.cs" />
     <Compile Include="Models\ViewModels\ImageAddViewModel.cs" />
@@ -340,8 +341,6 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Bid\ListBids.cshtml" />
-    <Content Include="Views\Bid\ApproveBid.cshtml" />
-    <Content Include="Views\Bid\DisapproveBid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

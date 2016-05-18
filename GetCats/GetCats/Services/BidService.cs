@@ -16,8 +16,6 @@ namespace GetCats.Services
 {
     public class BidService
     {
-        
-
         public Bid GetBid(string optId)
         {
             using (var context = ApplicationDbContext.Create())
@@ -42,6 +40,26 @@ namespace GetCats.Services
                     });
                 context.SaveChanges();
             }
+        }
+
+        public void AnswerBid(string bidId, int status) {
+
+            using (var context = ApplicationDbContext.Create())
+            {
+
+                var id = Guid.Parse(bidId);
+                var bid = context.Bids.FirstOrDefault(x => x.Id.Equals(id));
+
+                if (bid != null)
+                {
+                    Debug.WriteLine("Kom hit, (hittade bid i dbn. bIDoPTIONrES:" + bid.ImageOption.Resolution + " Bidder: " + bid.Bidder.Email);
+                    bid.Status = (Bid.BidStatus)status;
+                    context.Entry(bid).State = EntityState.Modified;
+                }
+
+                context.SaveChanges();
+            }
+
         }
 
         public void RemoveBid(string bidId)

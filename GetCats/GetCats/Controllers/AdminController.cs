@@ -60,7 +60,6 @@ namespace GetCats.Controllers
                 {
                     roleName = "Admin";
                 }
-
                 userList.Add(new AdminViewModel
                 {
                     Id = user.Id,

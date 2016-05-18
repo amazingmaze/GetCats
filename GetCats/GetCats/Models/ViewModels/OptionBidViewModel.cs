@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using GetCats.Models.Entities;
 
 namespace GetCats.Models.ViewModels
